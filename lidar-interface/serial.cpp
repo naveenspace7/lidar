@@ -9,14 +9,18 @@ Serial::Serial(const std::string& dev_name, const uint32_t br):
                 m_br(br), m_dev_name(dev_name)
 {
     connect_serial();
+
+    tx_buff = new uint8_t[BUFF_SIZE];
+    rx_buff = new uint8_t[BUFF_SIZE];
 }
 
-void Serial::ll_ser_read()
+size_t Serial::ll_ser_read()
 {
-    char read_buf[256];
-    memset(&read_buf, 0, sizeof(read_buf));
+    memset(rx_buff, 0, BUFF_SIZE);
 
-    int n = read(m_ser_handle, &read_buf, sizeof(read_buf));
+    size_t n = read(m_ser_handle, rx_buff, BUFF_SIZE);
+
+    return n;
 }
 
 void Serial::connect_serial()
@@ -27,6 +31,12 @@ void Serial::connect_serial()
         perror("Serial Port opening failed");
 
     set_tty_options(m_br);
+}
+
+Serial::~Serial()
+{
+    delete[] tx_buff;
+    delete[] rx_buff;
 }
 
 void Serial::set_tty_options(uint32_t baudrate)
