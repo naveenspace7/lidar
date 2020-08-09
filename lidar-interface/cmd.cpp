@@ -11,3 +11,6 @@ void SRNR::execute()
     // wait for 'x' ms
     Interface::send_data(this);
 }
+
+RESET * RESET::inst = nullptr;
+STOP * STOP::inst = nullptr;

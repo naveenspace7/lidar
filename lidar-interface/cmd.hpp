@@ -23,6 +23,8 @@ class CMD
         {}
 
         virtual void execute() = 0;
+
+        friend class Interface;
 };
 
 class SRNR: public CMD
@@ -36,18 +38,32 @@ class SRNR: public CMD
 
 class STOP: public SRNR
 {
-    public:
-    STOP(CMD_t id = CMD_t::STOP, uint8_t len = 2): SRNR(id, len)
-    {
+    static STOP * inst;
 
+public:
+    STOP(CMD_t id = CMD_t::STOP, uint8_t len = 2): SRNR(id, len)
+    {}
+
+    STOP * getInst()
+    {
+        if (!inst)
+            inst = new STOP;
+        return inst;
     }
 };
 
 class RESET: public SRNR
 {
-    public:
-    RESET(CMD_t id = CMD_t::RESET, uint8_t len = 2): SRNR(id, len)
-    {
+    static RESET * inst;
 
+public:
+    RESET(CMD_t id = CMD_t::RESET, uint8_t len = 2): SRNR(id, len)
+    {}
+
+    RESET * getInst()
+    {
+        if (!inst)
+            inst = new RESET;
+        return inst;
     }
 };

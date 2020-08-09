@@ -3,8 +3,13 @@
 
 using namespace std;
 
+RESET * reset = reset->getInst();
+STOP * stop = stop->getInst();
+
 int main()
 {
-    STOP stop;
-    stop.execute();
+    reset->execute();
+    stop->execute();
+
+
 }
